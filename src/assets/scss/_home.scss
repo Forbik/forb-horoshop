@@ -1,0 +1,8 @@
+@import "home/bar";
+@import "home/card";
+
+.home {
+  background-color: $bg-green;
+  color: $white-color-text;
+  min-height: 100%;
+}

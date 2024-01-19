@@ -1,0 +1,16 @@
+input::placeholder {
+  color: $grey;
+}
+.input-field {
+  border: 1px solid $grey;
+  border-radius: $border-radius;
+  height: 32px;
+  outline: none;
+  padding: 0 0 0 12px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+}

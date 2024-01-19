@@ -1,0 +1,22 @@
+.button {
+  border-radius: 3px;
+  display: block;
+  font-size: 14px;
+  min-height: 32px;
+  padding: 4px 12px;
+  text-decoration: none;
+  &:hover {
+    opacity: 0.95;
+  }
+
+  &-primary {
+    background-color: $btn-primary;
+    border: 1px solid #2A589B;
+    color: $white-color-text;
+  }
+  &-secondary {
+    background-color: $white;
+    border: 1px solid #ccc;
+    color: $text-error;
+  }
+}
