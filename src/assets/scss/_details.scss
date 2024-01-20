@@ -2,12 +2,16 @@
   display: flex;
   padding-top: 4px;
   &__back {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    margin-right: 64px;
+    position: absolute;
+    @media (min-width: 992px) {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 64px;
+    }
   }
   &__main {
     width: 100%;
@@ -15,11 +19,22 @@
   &__bar {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     margin-bottom: 40px;
+    text-align: right;
+    align-items: end;
+    @media (min-width: 992px) {
+      align-items: start;
+      flex-direction: row;
+    }
   }
   &__toggle {
     display: flex;
     align-items: center;
+    margin-bottom: 16px;
+    @media (min-width: 992px) {
+      margin-bottom: 0;
+    }
   }
   &__toggle-text {
     margin-left: 10px;

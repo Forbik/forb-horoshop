@@ -5,6 +5,9 @@
   height: 40px;
 
   &-title {
-    font-size: 24px;
+    font-size: 20px;
+    @media (min-width: 480px) {
+      font-size: 24px;
+    }
   }
 }

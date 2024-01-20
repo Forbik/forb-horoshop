@@ -1,17 +1,22 @@
 <template>
   <div class="image-gallery">
     <div v-if="images?.length" class="image-gallery__list">
-      <div
-        v-for="(image, idx) of images"
-        :key="idx + image"
-      >
-        <picture class="image-gallery__picture">
-          <img :src="image">
-          <button class="image-gallery__trash" @click="removeImage(idx)">
-            <IconTrash />
-          </button>
-        </picture>
-      </div>
+      <VueDraggableNext class="image-gallery__list" :list="images" :options="dragOptions">
+        <div
+          v-for="(image, idx) of images"
+          :key="idx + image"
+        >
+          <picture
+            class="image-gallery__picture"
+            :class="{'cursor-grab':images.length > 1}"
+          >
+            <img :src="image">
+            <button class="image-gallery__trash" @click="removeImage(idx)">
+              <IconTrash />
+            </button>
+          </picture>
+        </div>
+      </VueDraggableNext>
       <label class="image-gallery__add clickable">
         <IconPlus />
         <input type="file" @change="addImage" hidden>
@@ -25,7 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { VueDraggableNext } from 'vue-draggable-next'
 
 import IconPicturesVue from './icons/iconPictures.vue'
 import IconTrash from './icons/IconTrash.vue';
@@ -34,6 +40,11 @@ import IconPlus from './icons/IconPlus.vue';
 const props = defineProps<{
   modelValue: string[]
 }>()
+const dragOptions = computed(() => ({
+  animation: 200,
+  group: 'images',
+  disabled: false
+}))
 const images = ref(props.modelValue)
 const addImage = (event: Event) =>{
   const target = event.target as HTMLInputElement

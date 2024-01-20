@@ -6,9 +6,11 @@ const layoutList: LayoutItem[] = [
     id: 1,
     number: '100',
     name: 'Ostrov',
-    url: 'url1',
+    url: 'https://design100.horoshop.ua/',
     images: [
-      `${ostrovImage}`
+      `${ostrovImage}`,
+      `${floraImage}`,
+      `${sunwearImage}`
     ],
     isPublished: true
   },
@@ -16,9 +18,11 @@ const layoutList: LayoutItem[] = [
     id: 2,
     number: '101',
     name: 'Flora',
-    url: 'url1',
+    url: 'https://design101.horoshop.ua/',
     images: [
-      `${floraImage}`
+      `${floraImage}`,
+      `${sunwearImage}`,
+      `${ostrovImage}`
     ],
     isPublished: false
   },
@@ -26,9 +30,11 @@ const layoutList: LayoutItem[] = [
     id: 3,
     number: '102',
     name: 'SunWear',
-    url: 'url1',
+    url: 'https://design102.horoshop.ua/',
     images: [
-      `${sunwearImage}`
+      `${sunwearImage}`,
+      `${floraImage}`,
+      `${ostrovImage}`
     ],
     isPublished: true
   },
@@ -36,9 +42,11 @@ const layoutList: LayoutItem[] = [
     id: 4,
     number: '103',
     name: 'Flora',
-    url: 'url1',
+    url: 'https://design103.horoshop.ua/',
     images: [
-      `${floraImage}`
+      `${floraImage}`,
+      `${sunwearImage}`,
+      `${ostrovImage}`
     ],
     isPublished: true
   },
@@ -46,9 +54,11 @@ const layoutList: LayoutItem[] = [
     id: 5,
     number: '104',
     name: 'Flora',
-    url: 'url1',
+    url: 'https://design104.horoshop.ua/',
     images: [
-      `${floraImage}`
+      `${floraImage}`,
+      `${sunwearImage}`,
+      `${ostrovImage}`
     ],
     isPublished: true
   },
@@ -56,9 +66,11 @@ const layoutList: LayoutItem[] = [
     id: 6,
     number: '105',
     name: 'SunWear',
-    url: 'url1',
+    url: 'https://design105.horoshop.ua/',
     images: [
-      `${sunwearImage}`
+      `${sunwearImage}`,
+      `${floraImage}`,
+      `${ostrovImage}`
     ],
     isPublished: true
   },
@@ -66,9 +78,11 @@ const layoutList: LayoutItem[] = [
     id: 7,
     number: '106',
     name: 'Ostrov',
-    url: 'url1',
+    url: 'https://design106.horoshop.ua/',
     images: [
-      `${ostrovImage}`
+      `${ostrovImage}`,
+      `${sunwearImage}`,
+      `${floraImage}`
     ],
     isPublished: true
   },
@@ -76,7 +90,7 @@ const layoutList: LayoutItem[] = [
     id: 8,
     number: '107',
     name: 'SunWear',
-    url: 'url1',
+    url: 'https://design107.horoshop.ua/',
     images: [
     ],
     isPublished: true
@@ -87,7 +101,7 @@ export default {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(layoutList)
-      }, 500)
+      }, 300)
     })
   },
   async getLayout(id: number) {
@@ -95,7 +109,7 @@ export default {
       const resp = layoutList.find((layout) => layout.id === id)
       setTimeout(() => {
         resolve(resp)
-      }, 500)
+      }, 300)
     })
   },
   async removeLayout(id: number) {
@@ -108,7 +122,7 @@ export default {
         } else {
           throw new Error(`Item with id ${id} not found in layoutList.`)
         }
-      }, 500)
+      }, 300)
     })
   },
   async updateLayout(id: number, newData: LayoutItem) {
@@ -121,7 +135,7 @@ export default {
         } else {
           throw new Error(`Item with id ${id} not found in layoutList.`)
         }
-      }, 500)
+      }, 300)
     })
   },
   async addLayout(newData: LayoutItem) {
@@ -135,7 +149,7 @@ export default {
         }
         layoutList.push(newItem)
         resolve(layoutList)
-      }, 500)
+      }, 300)
     })
   }
 }

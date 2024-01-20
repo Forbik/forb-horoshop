@@ -5,7 +5,7 @@ import type { LayoutItem } from '@/types/layouts';
 type State = {
   layouts: LayoutItem[],
   currentLayout: LayoutItem | undefined,
-  isLoading: boolean,
+  isLoading: boolean
 }
 
 export const useLayoutStore = defineStore('layout', {

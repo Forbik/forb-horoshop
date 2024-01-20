@@ -35,10 +35,16 @@ body {
 .container {
   max-width: 1324px;
   margin: 0 auto;
-  padding: 20px 32px;
+  padding: 16px 20px;
+  @media (min-width: 480px) {
+    // padding: 20px 32px;
+  }
 }
 .clickable {
   cursor: pointer;
+}
+.cursor-grab {
+  cursor: grab;
 }
 
 .load-bar {
@@ -46,7 +52,7 @@ body {
   top: 0;
   width: 100%;
   height: 3px;
-  background-color: #fdba2c;
+  background-color: #425954;
 }
 .bar {
   content: "";
@@ -58,15 +64,15 @@ body {
   text-align: center;
 }
 .bar:nth-child(1) {
-  background-color: #da4733;
+  background-color: #627B7A;
   animation: loading 3s linear infinite;
 }
 .bar:nth-child(2) {
-  background-color: #3b78e7;
+  background-color: #485d5c;
   animation: loading 3s linear 1s infinite;
 }
 .bar:nth-child(3) {
-  background-color: #fdba2c;
+  background-color: #314342;
   animation: loading 3s linear 2s infinite;
 }
 @keyframes loading {

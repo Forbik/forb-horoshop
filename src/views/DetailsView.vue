@@ -57,7 +57,6 @@ import AppImageGallery from '@/components/AppImageGallery.vue'
 const appStore = useLayoutStore()
 const route = useRoute()
 const router = useRouter()
-const isLoading = ref(false)
 const currentLayout = ref<LayoutItem>({
   id: 1,
   number: '',
@@ -70,12 +69,13 @@ const currentLayout = ref<LayoutItem>({
 const isPublished = computed(
   () => currentLayout.value.isPublished ? 'Опублікований' : 'Неопублікований'
 )
+const isLoading = computed(() => appStore.isLoading)
 const isAddLayoutPage = computed(() => route.name === `add-layout`)
 
 onMounted(async () => {
   const layoutId = parseInt(route.params.id as string, 10)
   if (layoutId) {
-    isLoading.value = true
+    appStore.isLoading = true
     await fetchLayout(layoutId)
   }
 })
@@ -83,11 +83,11 @@ onUnmounted(() => {
   appStore.currentLayout = {} as LayoutItem
 })
 const removeLayout = async (id:number) => {
-  isLoading.value = true
+  appStore.isLoading = true
   try {
     const resp = await useRequest.removeLayout(id) as LayoutItem
     if (resp) {
-      isLoading.value = false
+      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
@@ -95,11 +95,11 @@ const removeLayout = async (id:number) => {
   }
 }
 const addLayout = async () => {
-  isLoading.value = true
+  appStore.isLoading = true
   try {
     const resp = await useRequest.addLayout(currentLayout.value) as LayoutItem
     if (resp) {
-      isLoading.value = false
+      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
@@ -107,11 +107,11 @@ const addLayout = async () => {
   }
 }
 const updateLayout = async () => {
-  isLoading.value = true
+  appStore.isLoading = true
   try {
     const resp = await useRequest.updateLayout(currentLayout.value.id, currentLayout.value) as LayoutItem
     if (resp) {
-      isLoading.value = false
+      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
@@ -129,7 +129,7 @@ async function fetchLayout (id: number) {
   } catch (err) {
     console.warn(err)
   } finally {
-    isLoading.value = false
+    appStore.isLoading = false
   }
 }
 </script>
