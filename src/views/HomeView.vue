@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, reactive } from 'vue'
 import { useLayoutStore } from '@/stores/layouts'
 import type { LayoutItem } from '@/types/layouts'
 import useRequest from '@/composables/useRequest'
@@ -25,21 +25,25 @@ import AppLoader from '@/components/AppLoader.vue'
 
 const appStore = useLayoutStore()
 
-const layouts = computed(() => appStore.layouts)
+let layouts = reactive<LayoutItem[]>([])
 const isLoading = computed(() => appStore.isLoading)
 
 onMounted(async () => {
   await fetchLayouts()
 })
 async function fetchLayouts () {
-  appStore.isLoading = true
   try {
+    appStore.isLoading = true
     const resp = await useRequest.getLayouts() as LayoutItem[]
-    appStore.layouts = resp
+    updateData(resp);
   } catch (err) {
-    console.warn(err)
+    console.error(err)
   } finally {
     appStore.isLoading = false
   }
+}
+const updateData = (data: LayoutItem[]) => {
+  appStore.layouts = data
+  layouts = data
 }
 </script>
