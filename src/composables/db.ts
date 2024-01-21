@@ -1,8 +1,8 @@
 
 import { layoutList } from '@/helpers/initialObject'
 
-export const dbName = 'horoshopDb'
-export const storeName = 'horoshop'
+export const dbName = import.meta.env.VITE_DB_NAME
+export const storeName = import.meta.env.VITE_STORE_NAME
 
 const request = indexedDB.open(dbName, 1)
 

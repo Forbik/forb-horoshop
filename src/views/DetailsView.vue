@@ -2,22 +2,17 @@
   <div class="container">
     <AppLoader v-if="isLoading" />
     <div v-else class="layout-details">
-      <div class="layout-details__back clickable">
-        <IconBack
-          @click="$router.go(-1)"
-        />
+      <div
+        class="layout-details__back clickable"
+        @click="$router.go(-1)"
+      >
+        <IconBack />
       </div>
       <div class="layout-details__main">
         <div class="layout-details__bar">
-          <div class="layout-details__toggle">
-            <label class="circle-checkbox">
-              <input v-model="currentLayout.isPublished" class="circle-checkbox__input" type="checkbox">
-              <div class="circle-checkbox__wrapper" >
-                <div class="circle-checkbox__circle"></div>
-              </div>
-            </label>
-            <span class="layout-details__toggle-text">{{ isPublished }}</span>
-          </div>
+          <AppCheckbox
+            v-model="currentLayout"
+          />
           <div class="layout-details__btns">
             <button
               v-if="!isAddLayoutPage"
@@ -44,7 +39,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, toRaw, computed } from 'vue'
+import { onMounted, ref, toRaw, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { LayoutItem } from '@/types/layouts'
 import type { ValidationErrors } from '@/types/errors'
@@ -54,15 +49,16 @@ import useRequest from '@/composables/useRequest'
 
 import IconBack from '@/components/icons/IconBack.vue'
 import AppLoader from '@/components/AppLoader.vue'
-import AppInputs from '@/components/AppInputs.vue'
-import AppImageGallery from '@/components/AppImageGallery.vue'
+import AppInputs from '@/components/details/AppInputs.vue'
+import AppCheckbox from '@/components/details/AppCheckbox.vue'
+import AppImageGallery from '@/components/details/AppImageGallery.vue'
 
 const appStore = useLayoutStore()
 const validationStore = useValidationStore()
 const route = useRoute()
 const router = useRouter()
 
-let currentLayout = reactive<LayoutItem>({
+const currentLayout = ref<LayoutItem>({
   id: 1,
   number: '',
   name: '',
@@ -71,9 +67,6 @@ let currentLayout = reactive<LayoutItem>({
   isPublished: false
 })
 const lengthLayouts = appStore.layouts.length
-const isPublished = computed(
-  () => currentLayout.isPublished ? 'Опублікований' : 'Неопублікований'
-)
 const isLoading = computed(() => appStore.isLoading)
 const isAddLayoutPage = computed(() => route.name === `add-layout`)
 
@@ -100,12 +93,12 @@ const removeLayout = async (id:number) => {
 const addLayout = async () => {
   appStore.isLoading = true
   try {
-    const validation = validateLayout(toRaw(currentLayout))
+    const validation = validateLayout(toRaw(currentLayout.value))
     if (!validation.isValid) {
       console.warn('Invalid layout data:', validation.errors)
       return
     }
-    const resp = await useRequest.addLayout(toRaw(currentLayout)) as LayoutItem
+    const resp = await useRequest.addLayout(toRaw(currentLayout.value)) as LayoutItem
     if (resp) {
       router.push('/')
     }
@@ -117,14 +110,14 @@ const addLayout = async () => {
 }
 const updateLayout = async () => {
   appStore.isLoading = true
-  if (!currentLayout.id) { return }
+  if (!currentLayout.value.id) { return }
   try {
-    const validation = validateLayout(toRaw(currentLayout))
+    const validation = validateLayout(currentLayout.value)
     if (!validation.isValid) {
       console.warn('Invalid layout data:', validation.errors)
       return
     }
-    const resp = await useRequest.updateLayout(currentLayout.id, currentLayout) as LayoutItem
+    const resp = await useRequest.updateLayout(currentLayout.value.id, toRaw(currentLayout.value)) as LayoutItem
     if (resp) {
       router.push('/')
     }
@@ -141,7 +134,7 @@ async function fetchLayout (id: number) {
       router.push('/')
     }
     appStore.currentLayout = resp
-    currentLayout = resp
+    currentLayout.value = resp
   } catch (err) {
     console.warn(err)
   } finally {
@@ -152,15 +145,15 @@ const validateLayout = (layout: LayoutItem): { isValid: boolean; errors: string[
   const errors: ValidationErrors = {}
 
   if (!layout.number || typeof layout.number !== 'string' || !/^\d+$/.test(layout.number)) {
-    errors.number = { message: 'Number is required and must be a number.' };
+    errors.number = { message: 'Введіть номер' };
   }
 
   if (!layout.name || typeof layout.name !== 'string') {
-    errors.name = { message: 'Name is required and must be a string.' }
+    errors.name = { message: 'Введіть назву дизайну' }
   }
 
   if (!layout.url || typeof layout.url !== 'string') {
-    errors.url = { message: 'URL is required and must be a string.' }
+    errors.url = { message: 'Введіть URL дизайну' }
   }
   validationStore.errors = errors
   if (Object.keys(errors).length > 0) {
