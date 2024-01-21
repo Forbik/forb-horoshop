@@ -22,7 +22,7 @@
             <button
               v-if="!isAddLayoutPage"
               class="button button-secondary"
-              @click="removeLayout(currentLayout.id)"
+              @click="removeLayout(currentLayout.id || lengthLayouts + 1)"
             >
               Видалити
             </button>
@@ -44,20 +44,25 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, reactive, toRefs, computed } from 'vue'
+import { onMounted, reactive, toRaw, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { LayoutItem } from '@/types/layouts'
+import type { ValidationErrors } from '@/types/errors'
 import { useLayoutStore } from '@/stores/layouts'
+import { useValidationStore } from '@/stores/validation'
 import useRequest from '@/composables/useRequest'
+
 import IconBack from '@/components/icons/IconBack.vue'
 import AppLoader from '@/components/AppLoader.vue'
 import AppInputs from '@/components/AppInputs.vue'
 import AppImageGallery from '@/components/AppImageGallery.vue'
 
 const appStore = useLayoutStore()
+const validationStore = useValidationStore()
 const route = useRoute()
 const router = useRouter()
-const currentLayout = ref<LayoutItem>({
+
+let currentLayout = reactive<LayoutItem>({
   id: 1,
   number: '',
   name: '',
@@ -65,9 +70,9 @@ const currentLayout = ref<LayoutItem>({
   images: [],
   isPublished: false
 })
-
+const lengthLayouts = appStore.layouts.length
 const isPublished = computed(
-  () => currentLayout.value.isPublished ? 'Опублікований' : 'Неопублікований'
+  () => currentLayout.isPublished ? 'Опублікований' : 'Неопублікований'
 )
 const isLoading = computed(() => appStore.isLoading)
 const isAddLayoutPage = computed(() => route.name === `add-layout`)
@@ -79,43 +84,54 @@ onMounted(async () => {
     await fetchLayout(layoutId)
   }
 })
-onUnmounted(() => {
-  appStore.currentLayout = {} as LayoutItem
-})
 const removeLayout = async (id:number) => {
   appStore.isLoading = true
   try {
     const resp = await useRequest.removeLayout(id) as LayoutItem
     if (resp) {
-      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
     console.warn(err)
+  } finally {
+    appStore.isLoading = false
   }
 }
 const addLayout = async () => {
   appStore.isLoading = true
   try {
-    const resp = await useRequest.addLayout(currentLayout.value) as LayoutItem
+    const validation = validateLayout(toRaw(currentLayout))
+    if (!validation.isValid) {
+      console.warn('Invalid layout data:', validation.errors)
+      return
+    }
+    const resp = await useRequest.addLayout(toRaw(currentLayout)) as LayoutItem
     if (resp) {
-      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
     console.warn(err)
+  } finally {
+    appStore.isLoading = false
   }
 }
 const updateLayout = async () => {
   appStore.isLoading = true
+  if (!currentLayout.id) { return }
   try {
-    const resp = await useRequest.updateLayout(currentLayout.value.id, currentLayout.value) as LayoutItem
+    const validation = validateLayout(toRaw(currentLayout))
+    if (!validation.isValid) {
+      console.warn('Invalid layout data:', validation.errors)
+      return
+    }
+    const resp = await useRequest.updateLayout(currentLayout.id, currentLayout) as LayoutItem
     if (resp) {
-      appStore.isLoading = false
       router.push('/')
     }
   } catch (err) {
     console.warn(err)
+  } finally {
+    appStore.isLoading = false
   }
 }
 async function fetchLayout (id: number) {
@@ -125,11 +141,31 @@ async function fetchLayout (id: number) {
       router.push('/')
     }
     appStore.currentLayout = resp
-    currentLayout.value = resp
+    currentLayout = resp
   } catch (err) {
     console.warn(err)
   } finally {
     appStore.isLoading = false
   }
+}
+const validateLayout = (layout: LayoutItem): { isValid: boolean; errors: string[] } => {
+  const errors: ValidationErrors = {}
+
+  if (!layout.number || typeof layout.number !== 'string' || !/^\d+$/.test(layout.number)) {
+    errors.number = { message: 'Number is required and must be a number.' };
+  }
+
+  if (!layout.name || typeof layout.name !== 'string') {
+    errors.name = { message: 'Name is required and must be a string.' }
+  }
+
+  if (!layout.url || typeof layout.url !== 'string') {
+    errors.url = { message: 'URL is required and must be a string.' }
+  }
+  validationStore.errors = errors
+  if (Object.keys(errors).length > 0) {
+    return { isValid: false, errors: [] };
+  }
+  return { isValid: true, errors: [] }
 }
 </script>

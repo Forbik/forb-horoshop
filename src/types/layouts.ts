@@ -1,5 +1,5 @@
 export interface LayoutItem {
-  id: number,
+  id?: number,
   number: string,
   name: string,
   url: string,

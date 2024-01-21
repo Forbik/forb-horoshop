@@ -12,15 +12,16 @@
   </div>
 </template>
 <script lang='ts' setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+
 import type { LayoutItem } from '@/types/layouts'
+
 const props = defineProps<{
   layout: LayoutItem
 }>()
 
-const layout = ref<LayoutItem | null>(null)
-layout.value = props.layout
+const layout = computed(() => props.layout)
 const previewImage = computed(() => {
-  return props.layout?.images[0] || 'images/not_found.jpg';
+  return props.layout?.images[0] || 'images/not_found.jpg'
 })
 </script>
