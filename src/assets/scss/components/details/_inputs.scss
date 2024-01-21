@@ -1,3 +1,15 @@
+.input-group {
+  &__item {
+    margin-bottom: 24px;
+    position: relative;
+    width: 100%;
+  }
+  &__error {
+    color: $text-error;
+    font-size: 10px;
+    position: absolute;
+  }
+}
 input::placeholder {
   color: $grey;
 }
@@ -7,7 +19,7 @@ input::placeholder {
   height: 32px;
   outline: none;
   padding: 0 0 0 12px;
-  margin-bottom: 24px;
+  position: relative;
   width: 100%;
 }
 .input-row {

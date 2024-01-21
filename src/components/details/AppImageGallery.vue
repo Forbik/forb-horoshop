@@ -33,9 +33,9 @@
 import { ref, computed } from 'vue'
 import { VueDraggableNext } from 'vue-draggable-next'
 
-import IconPicturesVue from './icons/iconPictures.vue'
-import IconTrash from './icons/IconTrash.vue';
-import IconPlus from './icons/IconPlus.vue';
+import IconPicturesVue from '@/components/icons/iconPictures.vue'
+import IconTrash from '@/components/icons/IconTrash.vue';
+import IconPlus from '@/components/icons/IconPlus.vue';
 
 const props = defineProps<{
   modelValue: string[]

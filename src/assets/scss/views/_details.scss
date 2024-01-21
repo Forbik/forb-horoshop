@@ -30,16 +30,18 @@
   }
   &__toggle {
     display: flex;
+    gap: 10px;
     align-items: center;
     margin-bottom: 16px;
+    flex-direction: row-reverse;
     @media (min-width: 992px) {
+      flex-direction: row;
       margin-bottom: 0;
     }
   }
   &__toggle-text {
-    margin-left: 10px;
     &.published {
-      color: #699707;
+      color: $green-text;
     }
   }
   &__btns {

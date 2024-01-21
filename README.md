@@ -1,46 +1,37 @@
 # horoshop-test
 
-This template should help get you started developing with Vue 3 in Vite.
+## Design Hub
 
-## Recommended IDE Setup
+Design Hub is a Vue 3 and TypeScript-based project that serves as a platform for managing and displaying a list of designs. Users can explore existing designs, edit design details, and contribute new designs to the hub.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Features
 
-## Type Support for `.vue` Imports in TS
+- **Design List:** View a curated list of designs with relevant details.
+- **Edit Design:** Modify existing design information directly on the platform.
+- **Add Design:** Contribute new designs to the hub by filling out a simple form.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Technologies Used
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Vue 3
+- TypeScript
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+## Getting Started
 
-## Customize configuration
+### Clone the repository
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1. **Clone the Repository:** `git clone https://github.com/Forbik/forb-horoshop.git`
+2. **Install Dependencies:** `npm install`
+3. **Run the Project:** `npm run dev`
 
-## Project Setup
+### Set up env file
 
-```sh
-npm install
-```
+You need create .env file with some parameters (see .env.example)
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+## Contribution
 
-### Type-Check, Compile and Minify for Production
+Contributions are welcome! Feel free to open issues or pull requests for any improvements, features, or bug fixes.
 
-```sh
-npm run build
-```
+## License
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+This project is licensed under the [MIT License](LICENSE).

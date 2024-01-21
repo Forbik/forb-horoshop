@@ -1,0 +1,13 @@
+@import "../components/home/bar";
+@import "../components/home/card";
+
+.home {
+  background-color: $bg-green;
+  color: $white-color-text;
+  min-height: 100%;
+}
+.cards-section {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 0 -20px;
+}

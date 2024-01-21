@@ -14,8 +14,12 @@
     align-items: center;
     border-radius: 3px;
     border: 2px dashed $grey;
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
+    @media (min-width: 480px) {
+      width: 120px;
+      height: 120px;
+    }
   }
   &__list {
     display: flex;
@@ -25,15 +29,21 @@
   &__picture {
     position: relative;
     display: block;
-    width: 120px;
+    width: 110px;
     max-height: 220px;
     box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.08);
     border-radius: 3px;
     border: 1px solid $grey;
     overflow: hidden;
+    @media (min-width: 480px) {
+      width: 120px;
+    }
     img {
       display: block;
-      width: 120px;
+      width: 110px;
+      @media (min-width: 480px) {
+        width: 120px;
+      }
     }
   }
   &__trash {
@@ -47,5 +57,7 @@
     right: 4px;
     background: rgba(0, 0, 0, 0.50);
     border-radius: $border-radius;
+    padding: 0;
+    margin: 0;
   }
 }

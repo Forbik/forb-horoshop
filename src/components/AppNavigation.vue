@@ -9,5 +9,5 @@
 
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
-import IconLogoVue from './icons/IconLogo.vue';
+import IconLogoVue from './icons/IconLogo.vue'
 </script>
